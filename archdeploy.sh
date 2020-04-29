@@ -69,9 +69,9 @@ CMDLINE_LINUX=""
 ADDITIONAL_USER_NAMES_ARRAY=()
 ADDITIONAL_USER_PASSWORDS_ARRAY=()
 
-CONF_FILE="alis.conf"
-LOG_FILE="alis.log"
-ASCIINEMA_FILE="alis.asciinema"
+CONF_FILE="archdeploy.conf"
+LOG_FILE="archdeploy.log"
+ASCIINEMA_FILE="archdeploy.asciinema"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -89,7 +89,7 @@ function get_lvmpasswd() {
 	echo "Please try again"
 	done
 	#echo $USER_PASSWORD
-	LUKS_PASSWORD=$USER_PASSWORD
+	$LUKS_PASSWORD=$USER_PASSWORD
 	USER_PASSWORD_RETYPE=$LUKS_PASSWORD
 	LUKS_PASSWORD_RETYPE=$LUKS_PASSWORD_RETYPE
 }
@@ -136,7 +136,7 @@ function get_rootpasswd() {
 }
 
 function configuration_install() {
-    source alis.conf
+    source archdeploy.conf
     ADDITIONAL_USER_NAMES_ARRAY=($ADDITIONAL_USER_NAMES)
     ADDITIONAL_USER_PASSWORDS_ARRAY=($ADDITIONAL_USER_PASSWORDS)
 }
@@ -817,7 +817,7 @@ function grub() {
     arch-chroot /mnt sed -i -E 's/GRUB_CMDLINE_LINUX_DEFAULT="(.*) quiet"/GRUB_CMDLINE_LINUX_DEFAULT="\1"/' /etc/default/grub
     arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="'"$CMDLINE_LINUX"'"/' /etc/default/grub
     echo "" >> /mnt/etc/default/grub
-    echo "# alis" >> /mnt/etc/default/grub
+    echo "# archdeploy" >> /mnt/etc/default/grub
     echo "GRUB_DISABLE_SUBMENU=y" >> /mnt/etc/default/grub
 
     if [ "$BIOS_TYPE" == "uefi" ]; then
@@ -858,7 +858,7 @@ function refind() {
     fi
 
     cat <<EOT >> "/mnt$ESP_DIRECTORY/EFI/refind/refind.conf"
-# alis
+# archdeploy
 menuentry "Arch Linux" {
     volume   $PARTUUID_BOOT
     loader   /vmlinuz-linux
@@ -942,7 +942,7 @@ function systemd() {
     arch-chroot /mnt mkdir -p "$ESP_DIRECTORY/loader/entries/"
 
     cat <<EOT > "/mnt$ESP_DIRECTORY/loader/loader.conf"
-# alis
+# archdeploy
 timeout 5
 default archlinux
 editor 0
@@ -1304,7 +1304,7 @@ function end() {
                 read -r -s -n 1 -t 1 -p "Rebooting in $i seconds... Press any key to abort."$'\n' KEY
                 if [ $? -eq 0 ]; then
                     echo ""
-                    echo "Restart aborted. You will must do a explicit reboot (./alis-reboot.sh)."
+                    echo "Restart aborted. You will must do a explicit reboot (./archdeploy-reboot.sh)."
                     echo ""
                     REBOOT="false"
                     break
@@ -1313,7 +1313,7 @@ function end() {
             set -e
         else
             echo ""
-            echo "Restart aborted. You will must terminate asciinema recording and do a explicit reboot (exit, ./alis-reboot.sh)."
+            echo "Restart aborted. You will must terminate asciinema recording and do a explicit reboot (exit, ./archdeploy-reboot.sh)."
             echo ""
             REBOOT="false"
         fi
@@ -1328,11 +1328,11 @@ function end() {
         echo -e "${GREEN}Arch Linux installed successfully"'!'"${NC}"
         if [ "$ASCIINEMA" == "false" ]; then
             echo ""
-            echo "You will must do a explicit reboot (./alis-reboot.sh)."
+            echo "You will must do a explicit reboot (./archdeploy-reboot.sh)."
             echo ""
         else
             echo ""
-            echo "You will must terminate asciinema recording and do a explicit reboot (exit, ./alis-reboot.sh)."
+            echo "You will must terminate asciinema recording and do a explicit reboot (exit, ./archdeploy-reboot.sh)."
             echo ""
         fi
     fi
