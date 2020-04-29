@@ -53,8 +53,8 @@ SWAP_SIZE="8GiB"
 PARTITION_MODE="auto !custom !manual"
 PARTITION_CUSTOM_PARTED_UEFI="mklabel gpt mkpart primary fat32 1MiB 512MiB mkpart primary $FILE_SYSTEM_TYPE 512MiB 100% set 1 boot"
 PARTITION_CUSTOM_PARTED_BIOS="mklabel msdos mkpart primary ext4 4MiB 512MiB mkpart primary $FILE_SYSTEM_TYPE 512MiB 100% set 1 boot on"
-PARTITION_CUSTOMMANUAL_BOOT="/dev/sda1 !/dev/nvme0n1p1 !/dev/mmcblk0p1"
-PARTITION_CUSTOMMANUAL_ROOT="/dev/sda2 !/dev/nvme0n1p2 !/dev/mmcblk0p2"
+PARTITION_CUSTOMMANUAL_BOOT="/dev/sda1 !/dev/vda1 !/dev/nvme0n1p1 !/dev/mmcblk0p1"
+PARTITION_CUSTOMMANUAL_ROOT="/dev/sda2 !/dev/vda2 !/dev/nvme0n1p2 !/dev/mmcblk0p2"
 
 # network_install
 WIFI_HIDDEN=()
@@ -64,8 +64,8 @@ WIFI_HIDDEN=()
 PING_HOSTNAME="mirrors.kernel.org"
 
 # install (precede with ! for not install)
-# PACMAN_MIRROR="https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"
-PACMAN_MIRROR="https://ger.mirror.pkgbuild.com/\$repo/os/\$arch"
+PACMAN_MIRROR="https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"
+# PACMAN_MIRROR="https://ger.mirror.pkgbuild.com/\$repo/os/\$arch"
 KERNELS="!linux-lts !linux-lts-headers !linux-hardened !linux-hardened-headers !linux-zen !linux-zen-headers" # Additional kernels and headers (multiple)
 KERNELS_COMPRESSION="gzip !bzip2 !lzma !xz !lzop !lz4"
 KERNELS_PARAMETERS="" # eg. iommu=soft
@@ -562,9 +562,11 @@ function partition() {
     PARTITION_BOOT_NUMBER="$PARTITION_BOOT"
     PARTITION_ROOT_NUMBER="$PARTITION_ROOT"
     PARTITION_BOOT_NUMBER="${PARTITION_BOOT_NUMBER//\/dev\/sda/}"
+    PARTITION_BOOT_NUMBER="${PARTITION_BOOT_NUMBER//\/dev\/vda/}"
     PARTITION_BOOT_NUMBER="${PARTITION_BOOT_NUMBER//\/dev\/nvme0n1p/}"
     PARTITION_BOOT_NUMBER="${PARTITION_BOOT_NUMBER//\/dev\/mmcblk0p/}"
     PARTITION_ROOT_NUMBER="${PARTITION_ROOT_NUMBER//\/dev\/sda/}"
+    PARTITION_ROOT_NUMBER="${PARTITION_ROOT_NUMBER//\/dev\/vda/}"
     PARTITION_ROOT_NUMBER="${PARTITION_ROOT_NUMBER//\/dev\/nvme0n1p/}"
     PARTITION_ROOT_NUMBER="${PARTITION_ROOT_NUMBER//\/dev\/mmcblk0p/}"
 
