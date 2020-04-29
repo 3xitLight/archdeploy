@@ -85,7 +85,7 @@ function get_lvmpasswd() {
 	echo
 	read -s -p "Retype Password: " LUKS_PASSWORD_RETYPE
 	echo
-	[ "LUKS_PASSWORD" = "$LUKS_PASSWORD_RETYPE" ] && break
+	[ "$LUKS_PASSWORD" = "$LUKS_PASSWORD_RETYPE" ] && break
 	echo "Please try again"
 	done
 	#echo $USER_PASSWORD
