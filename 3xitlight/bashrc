@@ -1,0 +1,139 @@
+#
+# ~/.bashrc
+#
+
+#################################################################################################
+#########    Colorize and add text parameters       #############################################
+#################################################################################################
+
+blk=$(tput setaf 0) # black
+red=$(tput setaf 1) # red
+grn=$(tput setaf 2) # green
+ylw=$(tput setaf 3) # yellow
+blu=$(tput setaf 4) # blue
+mga=$(tput setaf 5) # magenta
+cya=$(tput setaf 6) # cyan
+wht=$(tput setaf 7) # white
+#
+txtbld=$(tput bold) # Bold
+bldblk=${txtbld}$(tput setaf 0) # black
+bldred=${txtbld}$(tput setaf 1) # red
+bldgrn=${txtbld}$(tput setaf 2) # green
+bldylw=${txtbld}$(tput setaf 3) # yellow
+bldblu=${txtbld}$(tput setaf 4) # blue
+bldmga=${txtbld}$(tput setaf 5) # magenta
+bldcya=${txtbld}$(tput setaf 6) # cyan
+bldwht=${txtbld}$(tput setaf 7) # white
+txtrst=$(tput sgr0) # Reset
+# new alert text
+ALERT=${BWhite}${On_Red} # Bold White on red background
+
+#################################################################################################
+#########    START       ########################################################################
+#################################################################################################
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+#################################################################################################
+#########    ALIAS      #########################################################################
+#################################################################################################
+#
+alias makepkg="makepkg --rmdeps --cleanbuild --force --clean --syncdeps"
+alias mvrepo="mv *.pkg.tar.xz ${repo}"
+alias luci="ssh -L127.0.0.1:8000:127.0.0.1:80 root@192.168.2.1"
+alias logwatch="sudo logwatch --detail High"
+alias ssh1="ssh root@192.168.2.1"
+alias qemuiso="sudo qemu-system-x86_64 -machine type=pc,accel=kvm -enable-kvm -cpu host -smp cores=2 -m size=2G -vga std -k de -hda "
+alias ls="ls -al --color=auto"
+#
+alias cls="clear"
+alias ..="cd .."
+alias cd..="cd .."
+alias home="cd ~"
+alias df="df -ahiT --total"
+alias mkdir="mkdir -pv"
+alias userlist="cut -d: -f1 /etc/passwd"
+alias fhere="find . -name "
+alias free="free -mt"
+alias du="du -ach | sort -h"
+alias ps="ps auxf"
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias wget="wget -c"
+alias histg="history | grep"
+alias myip="curl http://ipecho.net/plain; echo"
+alias logs="find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
+alias grep='grep --color=auto'
+
+#################################################################################################
+#########  EXPORTS    ###########################################################################
+#################################################################################################
+export repo="/home/xnn/Desktop/aur-pkg-repo/x86_64/"
+export CHROOT="$HOME/chroot"
+export EDITOR="nano"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF-8"
+export LD_PRELOAD=""
+export JAVA_HOME="/usr/lib/jvm/default"
+# export ANDROID_HOME="/opt/android-sdk"
+# export TERM="xterm"
+export LD_PRELOAD=""
+#export PATH="${HOME}/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:"
+#export PATH="${PATH}/usr/local/sbin:/opt/bin:/usr/bin/core_perl:"
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+###################################################################################################
+##########  			   ########################################################################
+#
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh         
+fi
+
+[ -r /usr/share/bash-completion/completions ] &&
+  . /usr/share/bash-completion/completions/*
+  
+###################################################################################################
+#########      BANNER      ########################################################################
+###################################################################################################
+
+show_date=$(date |  cut -c -15)
+cpu_type=$(lscpu | grep "Model name:" | cut -c 24-)
+cpu_cores=$(lscpu | grep "^CPU(s)" | cut -c 24-)
+#block_dev=$(echo -e "${Yellow}Block Devices: \n${Green}$(lsblk | grep "sd." | awk '{print "'${Red}'> '${Green}'"$1" '${Yellow}'Type: '${Green}'"$6" '${Yellow}'Size: '${Green}'"$4" '${Green}'"$7}' | column -t | sed 's/>/    >/')")
+kversion=$(uname -srm)
+shell="$SHELL"
+gpu_temp=$(echo -e "$(sensors | grep "temp1:" | cut -c 16-22)")
+cpu_temp=$(echo -e "$(sensors | grep "Package id 0:" | cut -c 17-23)")
+# ip_public=$(dig +short myip.opendns.com @resolver1.opendns.com)
+ip_local=$(ip address | grep 'inet ' | grep 'scope global' | grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' -o | head -1)
+#
+# cpu_clock=$(echo -e "$(cpuinfo | grep "Hz Actual:"| cut -c 11-15)")
+# btc=$(curl https://www.bitstamp.net/api/v2/ticker/btceur/ 2>/dev/null  | sed  's/\,/\n/g' | grep last | awk  -F':' '{print $2}'  | sed 's/\"//g')
+# echo "${red}|btc:${txtrst}$btc€"
+# private_ip=$(echo -e "$(myip private | head -2 | tail -1)")
+# public_ip=$(echo -e "$(myip public | head -2 | tail -1)")
+# public:$txtrst$red $ip_public
+
+
+#####################################################################################################
+##########    BANNER    #############################################################################
+echo ""
+#echo "               		      $red $show_date                         ${txtrst}"
+echo "	${bldwht} ______           __________________ _       _________ _______          _________ "
+echo "	${bldwht}/ ___  \ |\     /|\__   __/\__   __/( \      \__   __/(  ____ \|\     /|\__   __/"
+echo "	${bldwht}\/   \  \( \   / )   ) (      ) (   | (         ) (   | (    \/| )   ( |   ) (   "
+echo "	${bldwht}   ___) / \ (_) /    | |      | |   | |         | |   | |      | (___) |   | |   "
+echo "	${bldwht}  (___ (   ) _ (     | |      | |   | |         | |   | | ____ |  ___  |   | |   "
+echo "	${bldwht}      ) \ / ( ) \    | |      | |   | |         | |   | | \_  )| (   ) |   | |   "
+echo "	${bldwht}/\___/  /( /   \ )___) (___   | |   | (____/\___) (___| (___) || )   ( |   | |   "
+echo "	${bldwht}\______/ |/     \|\_______/   )_(   (_______/\_______/(_______)|/     \|   )_(   "
+echo ""
+#echo ""
+echo "      				  $bldred [$kversion] $txtrst"
+echo ""
+echo "				 $bldwht Core Temp: $cpu_temp $txtrst								"
+echo ""
+echo ""
+#########################################################################################################
+#########      END        ###############################################################################
+#########################################################################################################
