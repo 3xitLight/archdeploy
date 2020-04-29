@@ -41,7 +41,7 @@ set -e
 
 KEYS="de"
 LOG="false"
-REPO_URL="https://github.com/3xitLight/aur-pkg-repo/releases/download/2"
+REPO_URL="https://github.com/3xitLight/aur-pkg-repo"
 # partition
 DEVICE="/dev/sda"
 DEVICE_TRIM="true"
@@ -1429,8 +1429,7 @@ function aur_install() {
 }
 
 function run_shconfig() {
-	arch-chroot /mnt curl --url $REPO_URL/3xitlight.tar.gz --output /usr/share/3xitlight.tar.gz
-	arch-chroot /mnt tar -xf /usr/share/3xitlight.tar.gz -C /usr/share/
+	tar -xf /usr/share/3xitlight.tar.gz -C /usr/share/
 	arch-chroot /mnt chmod +x /usr/share/3xitlight/config.sh
     arch-chroot /mnt /usr/share/3xitlight/config.sh
     arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"chmod +x /home/xnn/user_conig.sh\""
