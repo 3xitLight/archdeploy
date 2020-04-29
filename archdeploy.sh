@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-# Arch Linux Install Script (alis) installs unattended, automated
+# Arch Linux Install Script installs unattended, automated
 # and customized Arch Linux system.
 # Copyright (C) 2018 picodotdev
 
@@ -89,50 +89,49 @@ function get_lvmpasswd() {
 	echo "Please try again"
 	done
 	#echo $USER_PASSWORD
-	$LUKS_PASSWORD=$USER_PASSWORD
-	USER_PASSWORD_RETYPE=$LUKS_PASSWORD
-	LUKS_PASSWORD_RETYPE=$LUKS_PASSWORD_RETYPE
+	#LUKS_PASSWORD=$USER_PASSWORD
+	#LUKS_PASSWORD_RETYPE=$LUKS_PASSWORD
 }
 
 function get_hostname() {
 	read -p "Enter Hostname: "  HOSTNAME
 	echo "hostname set to: $HOSTNAME!"
-	HOSTNAME=$HOSTNAME
+	#HOSTNAME=$HOSTNAME
 }
 
 function get_username() {
 	read -p "Enter Username: "  USER_NAME
 	echo "Hello $USER_NAME !"
-	USER_NAME=$USER_NAME
+	#USER_NAME=$USER_NAME
 }
 
 function get_userpasswd() {
 	while true; do
 	read -s -p "Password for $USER_NAME: " USER_PASSWORD
 	echo
-	read -s -p "Retype Password: " USER_PASSWORD2
+	read -s -p "Retype Password: " USER_PASSWORD_RETYPE
 	echo
-	[ "$USER_PASSWORD" = "$USER_PASSWORD2" ] && break
+	[ "$USER_PASSWORD" = "$USER_PASSWORD_RETYPE" ] && break
 	echo "Please try again"
 	done
 	#echo $USER_PASSWORD
-	USER_PASSWORD=$USER_PASSWORD
-	USER_PASSWORD_RETYPE=$USER_PASSWORD
-	USER_PASSWORD_RETYPE=$USER_PASSWORD_RETYPE
+	#USER_PASSWORD=$USER_PASSWORD
+	#USER_PASSWORD_RETYPE=$USER_PASSWORD
+	#USER_PASSWORD_RETYPE=$USER_PASSWORD_RETYPE
 }
 
 function get_rootpasswd() {
 	while true; do
 	read -s -p "Set root Password: " ROOT_PASSWORD
 	echo
-	read -s -p "Password (again): " ROOT_PASSWORD2
+	read -s -p "Password (again): " ROOT_PASSWORD_RETYPE
 	echo
-	[ "$ROOT_PASSWORD" = "$ROOT_PASSWORD2" ] && break
+	[ "$ROOT_PASSWORD" = "$ROOT_PASSWORD_RETYPE" ] && break
 	echo "Please try again"
 	done
-	ROOT_PASSWORD=$ROOT_PASSWORD
-	ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD
-	ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD_RETYPE
+	#ROOT_PASSWORD=$ROOT_PASSWORD
+	#ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD
+	#ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD_RETYPE
 }
 
 function configuration_install() {
