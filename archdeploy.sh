@@ -39,8 +39,6 @@ set -e
 # # vim alis.conf
 # # ./alis.sh
 
-# source archdeploy.conf
-
 KEYS="de"
 LOG="false"
 REPO_URL="https://github.com/3xitLight/aur-pkg-repo/raw/master/pkgbuilds/3xitlight/3xitlight-desktop/"
@@ -65,7 +63,6 @@ PING_HOSTNAME="mirrors.kernel.org"
 
 # install (precede with ! for not install)
 PACMAN_MIRROR="https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"
-# PACMAN_MIRROR="https://ger.mirror.pkgbuild.com/\$repo/os/\$arch"
 KERNELS="!linux-lts !linux-lts-headers !linux-hardened !linux-hardened-headers !linux-zen !linux-zen-headers" # Additional kernels and headers (multiple)
 KERNELS_COMPRESSION="gzip !bzip2 !lzma !xz !lzop !lz4"
 KERNELS_PARAMETERS="" # eg. iommu=soft
@@ -159,7 +156,6 @@ CMDLINE_LINUX=""
 ADDITIONAL_USER_NAMES_ARRAY=()
 ADDITIONAL_USER_PASSWORDS_ARRAY=()
 
-CONF_FILE="archdeploy.conf"
 LOG_FILE="archdeploy.log"
 
 RED='\033[0;31m'
@@ -243,7 +239,6 @@ function get_rootpasswd() {
 }
 
 function configuration_install() {
-    # source archdeploy.conf
     ADDITIONAL_USER_NAMES_ARRAY=($ADDITIONAL_USER_NAMES)
     ADDITIONAL_USER_PASSWORDS_ARRAY=($ADDITIONAL_USER_PASSWORDS)
 }
