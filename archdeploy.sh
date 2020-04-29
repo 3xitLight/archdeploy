@@ -40,7 +40,14 @@ set -e
 # # ./alis.sh
 
 # global variables (no configuration, don't edit)
-ASCIINEMA=""
+HOSTNAME=""
+USER_NAME=""
+ROOT_PASSWORD=""
+ROOT_PASSWORD_RETYPE=""
+USER_PASSWORD=""
+USER_PASSWORD_RETYPE=""
+LUKS_PASSWORD=""
+LUKS_PASSWORD_RETYPE=""
 BIOS_TYPE=""
 PARTITION_BOOT=""
 PARTITION_ROOT=""
@@ -71,7 +78,6 @@ ADDITIONAL_USER_PASSWORDS_ARRAY=()
 
 CONF_FILE="archdeploy.conf"
 LOG_FILE="archdeploy.log"
-ASCIINEMA_FILE="archdeploy.asciinema"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -99,7 +105,6 @@ function get_hostname() {
 	echo "hostname set to: $HOSTNAME!"
 	echo
 	sleep 1
-	HOSTNAME=$HOSTNAME
 }
 
 function get_username() {
@@ -129,7 +134,7 @@ function get_userpasswd() {
 	sleep 1
 	done
 	#echo $USER_PASSWORD
-	USER_PASSWORD=$USER_PASSWORD
+	#USER_PASSWORD=$USER_PASSWORD
 	#USER_PASSWORD_RETYPE=$USER_PASSWORD
 	#USER_PASSWORD_RETYPE=$USER_PASSWORD_RETYPE
 }
@@ -149,7 +154,7 @@ function get_rootpasswd() {
 	echo
 	sleep 1
 	done
-	ROOT_PASSWORD=$ROOT_PASSWORD
+	#ROOT_PASSWORD=$ROOT_PASSWORD
 	#ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD
 	#ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD_RETYPE
 }
@@ -326,12 +331,6 @@ function facts() {
         BIOS_TYPE="uefi"
     else
         BIOS_TYPE="bios"
-    fi
-
-    if [ -f "$ASCIINEMA_FILE" ]; then
-        ASCIINEMA="true"
-    else
-        ASCIINEMA="false"
     fi
 
     DEVICE_SATA="false"
@@ -1304,56 +1303,21 @@ function terminate() {
         mkdir -p /mnt/var/log
         cp "$LOG_FILE" "/mnt/var/log/$LOG_FILE"
     fi
-    if [ "$ASCIINEMA" == "true" ]; then
-        mkdir -p /mnt/var/log
-        cp "$ASCIINEMA_FILE" "/mnt/var/log/$ASCIINEMA_FILE"
-    fi
 }
 
 function end() {
-    if [ "$REBOOT" == "true" ]; then
+   if [ "$REBOOT" == 'true' ]; then
         echo ""
         echo -e "${GREEN}Arch Linux installed successfully"'!'"${NC}"
-        echo ""
-
-        REBOOT="true"
-        if [ "$ASCIINEMA" == "false" ]; then
-            set +e
-            for (( i = 15; i >= 1; i-- )); do
-                read -r -s -n 1 -t 1 -p "Rebooting in $i seconds... Press any key to abort."$'\n' KEY
-                if [ $? -eq 0 ]; then
-                    echo ""
-                    echo "Restart aborted. You will must do a explicit reboot (./archdeploy-reboot.sh)."
-                    echo ""
-                    REBOOT="false"
-                    break
-                fi
-            done
-            set -e
-        else
-            echo ""
-            echo "Restart aborted. You will must terminate asciinema recording and do a explicit reboot (exit, ./archdeploy-reboot.sh)."
-            echo ""
-            REBOOT="false"
-        fi
-
-        if [ "$REBOOT" == 'true' ]; then
-            umount -R /mnt/boot
-            umount -R /mnt
-            reboot
-        fi
+        umount -R /mnt/boot
+        umount -R /mnt
+        sync
+        sleep 1
+        reboot
+   fi
     else
         echo ""
         echo -e "${GREEN}Arch Linux installed successfully"'!'"${NC}"
-        if [ "$ASCIINEMA" == "false" ]; then
-            echo ""
-            echo "You will must do a explicit reboot (./archdeploy-reboot.sh)."
-            echo ""
-        else
-            echo ""
-            echo "You will must terminate asciinema recording and do a explicit reboot (exit, ./archdeploy-reboot.sh)."
-            echo ""
-        fi
     fi
 }
 
@@ -1403,13 +1367,13 @@ function print_step() {
 }
 
 function main() {
-	get_lvmpasswd
-	get_hostname
+	
 	get_username
-	get_userpasswd
-	get_userpasswd
 	get_rootpasswd
-    configuration_install
+	get_hostname
+	get_userpasswd
+	get_lvmpasswd
+    #configuration_install
     sanitize_variables
     check_variables
     warning
