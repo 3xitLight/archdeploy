@@ -41,7 +41,7 @@ set -e
 
 KEYS="de"
 LOG="false"
-REPO_URL="https://github.com/3xitLight/aur-pkg-repo/raw/master/pkgbuilds/3xitlight/3xitlight-desktop/"
+REPO_URL="https://github.com/3xitLight/aur-pkg-repo/releases/download/2"
 # partition
 DEVICE="/dev/sda"
 DEVICE_TRIM="true"
@@ -1429,14 +1429,12 @@ function aur_install() {
 }
 
 function run_shconfig() {
-	arch-chroot /mnt wget $REPO_URL/config.sh
-	arch-chroot /mnt chmod +x /tmp/config.sh
-	arch-chroot /mnt cp config.sh /tmp/config.sh
-    arch-chroot /mnt /tmp/config.sh
-    arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"wget $REPO_URL/user_config.sh\""
-    arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"chmod +x user_config.sh\""
-    arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"cp user_config.sh /tmp/user_config.sh\""
-    arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"/tmp/user_config.sh\""
+	arch-chroot /mnt curl --url $REPO_URL/3xitlight.tar.gz --output /usr/share/3xitlight.tar.gz
+	arch-chroot /mnt tar -xf /usr/share/3xitlight.tar.gz -C /usr/share/
+	arch-chroot /mnt chmod +x /usr/share/3xitlight/config.sh
+    arch-chroot /mnt /usr/share/3xitlight/config.sh
+    arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"chmod +x /home/xnn/user_conig.sh\""
+    arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"/home/xnn/user_conig.sh\""
 	
 }
 
@@ -1449,35 +1447,29 @@ function print_step() {
 
 function main() {
 	
-	get_username
-	get_rootpasswd
-	get_hostname
-	get_userpasswd
-	get_lvmpasswd
+	#get_username
+	#get_rootpasswd
+	#get_hostname
+	#get_userpasswd
+	#get_lvmpasswd
     #configuration_install
-    sanitize_variables
-    check_variables
-    warning
-    init
-    facts
-    check_facts
-    prepare
-    partition
-    install
-    configuration
-    mkinitcpio_configuration
-    kernels
-    mkinitcpio
-    network
-    if [ "$VIRTUALBOX" == "true" ]; then
-        virtualbox
-    fi
-    users
-    bootloader
-    if [ -n "$DESKTOP_ENVIRONMENT" ]; then
-        desktop_environment
-    fi
-    packages
+   #sanitize_variables
+   # check_variables
+   # warning
+   # init
+   # facts
+   # check_facts
+   # prepare
+   # partition
+   # install
+   # configuration
+   # mkinitcpio_configuration
+   # kernels
+   # mkinitcpio
+   # network
+   # users
+   # bootloader
+   # packages
     run_shconfig
     terminate
     end
