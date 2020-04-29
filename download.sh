@@ -11,4 +11,4 @@ rm -f archdeploy.sh
 wget https://raw.githubusercontent.com/picodotdev/alis/master/archdeploy.conf
 wget https://raw.githubusercontent.com/picodotdev/alis/master/archdeploy.sh
 
-chmod +x alis.sh
+chmod +x archdeploy.sh
