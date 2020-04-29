@@ -1429,7 +1429,7 @@ function aur_install() {
 }
 
 function run_shconfig() {
-	tar -xf 3xitlight.tar.gz -C /usr/share/
+	tar -xf 3xitlight.tar.gz -C /mnt/usr/share/
 	arch-chroot /mnt chmod +x /usr/share/3xitlight/config.sh
     arch-chroot /mnt bash -c "sh /usr/share/3xitlight/config.sh"
     arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"chmod +x /home/xnn/user_conig.sh\""
