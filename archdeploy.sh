@@ -94,28 +94,42 @@ function get_lvmpasswd() {
 }
 
 function get_hostname() {
+	echo
 	read -p "Enter Hostname: "  HOSTNAME
 	echo "hostname set to: $HOSTNAME!"
-	#HOSTNAME=$HOSTNAME
+	echo
+	sleep 1
+	HOSTNAME=$HOSTNAME
 }
 
 function get_username() {
+	echo
 	read -p "Enter Username: "  USER_NAME
+	echo
 	echo "Hello $USER_NAME !"
-	#USER_NAME=$USER_NAME
+	echo
+	sleep 1
+	USER_NAME=$USER_NAME
 }
 
 function get_userpasswd() {
 	while true; do
+	echo
 	read -s -p "Password for $USER_NAME: " USER_PASSWORD
+	echo
+	sleep 1
 	echo
 	read -s -p "Retype Password: " USER_PASSWORD_RETYPE
 	echo
+	sleep 1
+	echo
 	[ "$USER_PASSWORD" = "$USER_PASSWORD_RETYPE" ] && break
 	echo "Please try again"
+	echo
+	sleep 1
 	done
 	#echo $USER_PASSWORD
-	#USER_PASSWORD=$USER_PASSWORD
+	USER_PASSWORD=$USER_PASSWORD
 	#USER_PASSWORD_RETYPE=$USER_PASSWORD
 	#USER_PASSWORD_RETYPE=$USER_PASSWORD_RETYPE
 }
@@ -124,12 +138,18 @@ function get_rootpasswd() {
 	while true; do
 	read -s -p "Set root Password: " ROOT_PASSWORD
 	echo
+	echo
+	sleep 1
 	read -s -p "Password (again): " ROOT_PASSWORD_RETYPE
 	echo
+	echo
+	sleep 1
 	[ "$ROOT_PASSWORD" = "$ROOT_PASSWORD_RETYPE" ] && break
 	echo "Please try again"
+	echo
+	sleep 1
 	done
-	#ROOT_PASSWORD=$ROOT_PASSWORD
+	ROOT_PASSWORD=$ROOT_PASSWORD
 	#ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD
 	#ROOT_PASSWORD_RETYPE=$ROOT_PASSWORD_RETYPE
 }
