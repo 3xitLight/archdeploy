@@ -1309,17 +1309,18 @@ function end() {
    if [ "$REBOOT" == 'true' ]; then
         echo ""
         echo -e "${GREEN}Arch Linux installed successfully"'!'"${NC}"
-        umount -R /mnt/boot
-        umount -R /mnt
+        umount -R #/mnt/boot
+        umount -R #/mnt
         sync
         sleep 1
         reboot
    fi
-    else
-        echo ""
-        echo -e "${GREEN}Arch Linux installed successfully"'!'"${NC}"
-    fi
+    
+   echo ""
+   echo -e "${GREEN}Arch Linux installed successfully"'!'"${NC}"
+    
 }
+
 
 function pacman_install() {
     PACKAGES=$1
