@@ -36,8 +36,9 @@ fi
 #############################################################
 #########               VARIABLES                   #########
 #############################################################
-GATEWAY=192.168.2.1
-DNS=192.168.2.1
+GATEWAY="$(route -n | grep 'UG[ \t]' | awk '{print $2}')"
+GATEWAY=$GATEWAY
+DNS=$GATEWAY
 NetCard=$(ip addr show | awk '/inet.*brd/{print $NF; exit}')
 STATUS=$(ufw status)
 
